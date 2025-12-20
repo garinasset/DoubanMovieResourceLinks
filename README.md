@@ -1,6 +1,6 @@
 # DoubanMovieResourceLinks
 
-在豆瓣电影页面添加资源搜索入口的篡改猴脚本：
+在豆瓣电影页面中添加第三方资源搜索链接的篡改猴脚本：
 
 - IMDb → 海盗湾 The Pirate Bay
 - 中文名 → 电影天堂（POST + GBK）
