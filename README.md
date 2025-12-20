@@ -1,10 +1,8 @@
 # DoubanMovieResourceLinks
 
-# Douban → PirateBay & Dytt
-
 在豆瓣电影页面添加资源搜索入口：
 
-- IMDb → The Pirate Bay
+- IMDb → 海盗湾 The Pirate Bay
 - 中文名 → 电影天堂（POST + GBK）
 
 ## 功能
