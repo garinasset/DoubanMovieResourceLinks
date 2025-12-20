@@ -3,7 +3,7 @@
 // @name:zh-CN   豆瓣电影资源链接
 // @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
 // @version      1.0.0
-// @description  在豆瓣电影页面中自动添加第三方资源搜索链接（IMDb → 海盗湾，中文名 → 电影天堂）
+// @description  在豆瓣电影页面中自动添加第三方资源搜索链接
 // @match        https://movie.douban.com/subject/*
 // @run-at       document-end
 // @grant        none
@@ -14,45 +14,47 @@
 (function () {
     'use strict';
 
-    /* =========================
-     * 样式（favicon + 灰度）
+    /** =========================
+     * favicon 样式（追加）
      * ========================= */
-    (function addStyle() {
+    (function addFaviconStyle() {
         const style = document.createElement('style');
         style.textContent = `
-            .tm-douban-resource__link {
+            .tm-douban-resource__container a {
                 padding-left: 18px;
-                margin-right: 4px;
                 background-repeat: no-repeat;
                 background-position: left center;
                 background-size: 14px 14px;
-                filter: grayscale(100%);
             }
 
-            .tm-douban-resource__link--tpb {
+            /* 海盗湾 */
+            .tm-douban-resource__link--hdw {
+                background-image: url("https://thepiratebay.org/favicon.ico");
+            }
+            .tm-douban-resource__link--hdw:hover {
                 background-image: url("https://thepiratebay.org/favicon.ico");
             }
 
+            /* 电影天堂 */
             .tm-douban-resource__link--dytt {
+                background-image: url("https://www.dytt8899.com/favicon.ico");
+            }
+            .tm-douban-resource__link--dytt:hover {
                 background-image: url("https://www.dytt8899.com/favicon.ico");
             }
         `;
         document.head.appendChild(style);
     })();
 
-    /* =========================
+    /** =========================
      * 工具函数
      * ========================= */
 
-    // 从 <title> 中获取最干净的中文名
     function getCleanChineseTitle() {
-        // 例：新世界 (豆瓣)
-        return (document.title || '')
-            .replace(/\s*\(豆瓣\)\s*$/, '')
-            .trim();
+        const title = document.title || '';
+        return title.replace(/\s*\(豆瓣\)\s*$/, '').trim();
     }
 
-    // 使用 POST 提交电影天堂搜索（GB2312 编码）
     function openDyttSearch(keyword) {
         const form = document.createElement('form');
         form.action = 'https://www.dytt8899.com/e/search/index.php';
@@ -80,20 +82,17 @@
         form.remove();
     }
 
-    /* =========================
-     * 主逻辑
-     * ========================= */
-
-    function insertResourceLinks() {
+    function insertLinks() {
         const info = document.querySelector('#info');
         if (!info) return false;
 
-        // 防止重复插入
+        // 防重复
         if (info.querySelector('.tm-douban-resource__container')) return true;
 
-        // 找 IMDb
+        /** ===== IMDb ===== */
         const imdbLabel = Array.from(info.querySelectorAll('span.pl'))
             .find(span => span.textContent.trim() === 'IMDb:');
+
         if (!imdbLabel) return false;
 
         const imdbTextNode = imdbLabel.nextSibling;
@@ -102,33 +101,34 @@
         const imdbId = imdbTextNode.textContent.trim();
         if (!/^tt\d+$/.test(imdbId)) return false;
 
-        // 中文片名
+        /** ===== 中文名 ===== */
         const cnTitle = getCleanChineseTitle();
         if (!cnTitle) return false;
 
-        // 构建 DOM
+        /** ===== 创建 DOM ===== */
         const container = document.createElement('span');
         container.className = 'tm-douban-resource__container';
         container.innerHTML = `
             <span class="pl">磁力资源:</span>
-            <a class="tm-douban-resource__link tm-douban-resource__link--tpb"
+            <a class="tm-douban-resource__link tm-douban-resource__link--hdw"
                href="https://thepiratebay.org/search.php?q=${imdbId}"
                target="_blank" rel="noopener noreferrer">
                海盗湾
             </a>
             &nbsp;/&nbsp;
-            <a class="tm-douban-resource__link tm-douban-resource__link--dytt"
-               href="javascript:void(0);">
+            <a href="javascript:void(0);"
+               class="tm-douban-resource__link tm-douban-resource__link--dytt tm-douban-resource__action-dytt">
                电影天堂
             </a>
         `;
 
-        container.querySelector('.tm-douban-resource__link--dytt')
+        container
+            .querySelector('.tm-douban-resource__action-dytt')
             .addEventListener('click', () => openDyttSearch(cnTitle));
 
         const br = document.createElement('br');
-        const imdbBr = imdbTextNode.nextSibling;
 
+        const imdbBr = imdbTextNode.nextSibling;
         if (imdbBr && imdbBr.tagName === 'BR') {
             imdbBr.after(container, br);
         } else {
@@ -138,17 +138,15 @@
         return true;
     }
 
-    /* =========================
-     * 等待 DOM（兼容豆瓣 SPA）
+    /** =========================
+     * 等待 DOM（豆瓣 SPA）
      * ========================= */
 
-    function waitForInfoReady() {
-        if (insertResourceLinks()) return;
+    function waitForInfo() {
+        if (insertLinks()) return;
 
         const observer = new MutationObserver(() => {
-            if (insertResourceLinks()) {
-                observer.disconnect();
-            }
+            if (insertLinks()) observer.disconnect();
         });
 
         observer.observe(document.body, {
@@ -156,12 +154,11 @@
             subtree: true
         });
 
-        // 兜底延迟
         setTimeout(() => {
-            insertResourceLinks();
+            insertLinks();
             observer.disconnect();
         }, 3000);
     }
 
-    waitForInfoReady();
+    waitForInfo();
 })();
