@@ -1,6 +1,6 @@
 # DoubanMovieResourceLinks
 
-在豆瓣电影页面添加资源搜索入口：
+在豆瓣电影页面添加资源搜索入口的篡改猴脚本：
 
 - IMDb → 海盗湾 The Pirate Bay
 - 中文名 → 电影天堂（POST + GBK）
@@ -14,7 +14,7 @@
 
 ## 安装
 
-1. 安装 Tampermonkey
+1. 安装 篡改猴（Tampermonkey）
 2. 打开：
    https://greasyfork.org/scripts/xxxx
 3. 点击安装
