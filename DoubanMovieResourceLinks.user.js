@@ -15,31 +15,48 @@
     'use strict';
 
     /** =========================
-     * favicon 样式（追加）
+     * 样式：资源链接 icon（::before 方案）
      * ========================= */
-    (function addFaviconStyle() {
+    (function addResourceIconStyle() {
         const style = document.createElement('style');
         style.textContent = `
-            .tm-douban-resource__container a {
-                padding-left: 18px;
+            /* ===== 容器 ===== */
+            .tm-douban-resource__container {
+                white-space: nowrap;
+            }
+
+            /* ===== 通用资源链接 ===== */
+            .tm-douban-resource__link {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                padding-left: 18px;      /* icon 占位 */
+                line-height: 1.2;        /* 收紧 hover 背景高度 */
+                vertical-align: middle;  /* 行内对齐更稳定 */
+                text-decoration: none;
+            }
+
+            /* icon 通用规则 */
+            .tm-douban-resource__link::before {
+                content: "";
+                position: absolute;
+                left: 1px;               /* 稳定 1px 间距 */
+                top: 50%;
+                transform: translateY(-50%);
+                width: 14px;
+                height: 14px;
                 background-repeat: no-repeat;
-                background-position: left center;
-                background-size: 14px 14px;
+                background-size: contain;
+                pointer-events: none;
             }
 
-            /* 海盗湾 */
-            .tm-douban-resource__link--hdw {
-                background-image: url("https://thepiratebay.org/favicon.ico");
-            }
-            .tm-douban-resource__link--hdw:hover {
+            /* ===== 海盗湾 ===== */
+            .tm-douban-resource__link--hdw::before {
                 background-image: url("https://thepiratebay.org/favicon.ico");
             }
 
-            /* 电影天堂 */
-            .tm-douban-resource__link--dytt {
-                background-image: url("https://www.dytt8899.com/favicon.ico");
-            }
-            .tm-douban-resource__link--dytt:hover {
+            /* ===== 电影天堂 ===== */
+            .tm-douban-resource__link--dytt::before {
                 background-image: url("https://www.dytt8899.com/favicon.ico");
             }
         `;
@@ -127,8 +144,8 @@
             .addEventListener('click', () => openDyttSearch(cnTitle));
 
         const br = document.createElement('br');
-
         const imdbBr = imdbTextNode.nextSibling;
+
         if (imdbBr && imdbBr.tagName === 'BR') {
             imdbBr.after(container, br);
         } else {
