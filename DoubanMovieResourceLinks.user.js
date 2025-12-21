@@ -2,13 +2,15 @@
 // @name         Douban Movie Resource Links
 // @name:zh-CN   豆瓣电影资源链接
 // @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
-// @version      1.0.0
+// @version      1.0.1
 // @description  在豆瓣电影页面中自动添加第三方资源搜索链接
 // @match        https://movie.douban.com/subject/*
 // @run-at       document-end
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js
 // @downloadURL  https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js
+// @connect      thepiratebay.org
+// @connect      dytt8899.com
 // ==/UserScript==
 
 (function () {
