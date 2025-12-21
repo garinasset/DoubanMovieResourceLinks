@@ -15,10 +15,9 @@
 
 ## 安装
 
-1. 安装 篡改猴（Tampermonkey）
-2. 打开：
-   https://greasyfork.org/scripts/xxxx
-3. 点击安装
+1. 安装 **Tampermonkey** 或 **Greasemonkey** 浏览器扩展
+2. 点击 [安装脚本](https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js) 按钮，自动添加到扩展中
+3. 打开豆瓣电影详情页，即可在IDMb信息下方看到“第三方资源”搜索链接
 
 ## 开发 & 更新
 
