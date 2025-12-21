@@ -2,7 +2,7 @@
 // @name         Douban Movie Resource Links
 // @name:zh-CN   豆瓣电影资源链接
 // @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
-// @version      1.0.1
+// @version      2.0.1
 // @description  在豆瓣电影页面中自动添加第三方资源搜索链接
 // @author       garinasset
 // @homepageURL  https://github.com/garinasset/DoubanMovieResourceLinks
@@ -23,6 +23,7 @@
      * 样式：资源链接 icon（::before 方案）
      * ========================= */
     (function addResourceIconStyle() {
+        console.log("Adding resource icon styles...");
         const style = document.createElement('style');
         style.textContent = `
             /* ===== 容器 ===== */
@@ -66,6 +67,7 @@
             }
         `;
         document.head.appendChild(style);
+        console.log("Resource icon styles added.");
     })();
 
     /** =========================
@@ -73,11 +75,15 @@
      * ========================= */
 
     function getCleanChineseTitle() {
+        console.log("Extracting Chinese title...");
         const title = document.title || '';
-        return title.replace(/\s*\(豆瓣\)\s*$/, '').trim();
+        const cleanedTitle = title.replace(/\s*\(豆瓣\)\s*$/, '').trim();
+        console.log("Cleaned Chinese title:", cleanedTitle);
+        return cleanedTitle;
     }
 
     function openDyttSearch(keyword) {
+        console.log("Opening search for:", keyword);
         const form = document.createElement('form');
         form.action = 'https://www.dytt8899.com/e/search/index.php';
         form.method = 'POST';
@@ -102,30 +108,52 @@
         document.body.appendChild(form);
         form.submit();
         form.remove();
+        console.log("Search form submitted for:", keyword);
     }
 
     function insertLinks() {
+        console.log("Checking for IMDb ID...");
         const info = document.querySelector('#info');
-        if (!info) return false;
+        if (!info) {
+            console.log("Info element not found.");
+            return false;
+        }
 
         // 防重复
-        if (info.querySelector('.tm-douban-resource__container')) return true;
+        if (info.querySelector('.tm-douban-resource__container')) {
+            console.log("Links already inserted, skipping.");
+            return true;
+        }
 
         /** ===== IMDb ===== */
         const imdbLabel = Array.from(info.querySelectorAll('span.pl'))
             .find(span => span.textContent.trim() === 'IMDb:');
 
-        if (!imdbLabel) return false;
+        if (!imdbLabel) {
+            console.log("IMDb label not found.");
+            return false;
+        }
 
         const imdbTextNode = imdbLabel.nextSibling;
-        if (!imdbTextNode || imdbTextNode.nodeType !== Node.TEXT_NODE) return false;
+        if (!imdbTextNode || imdbTextNode.nodeType !== Node.TEXT_NODE) {
+            console.log("IMDb ID is not a text node.");
+            return false;
+        }
 
         const imdbId = imdbTextNode.textContent.trim();
-        if (!/^tt\d+$/.test(imdbId)) return false;
+        console.log("Found IMDb ID:", imdbId);
+
+        if (!/^tt\d+$/.test(imdbId)) {
+            console.log("Invalid IMDb ID:", imdbId);
+            return false;
+        }
 
         /** ===== 中文名 ===== */
         const cnTitle = getCleanChineseTitle();
-        if (!cnTitle) return false;
+        if (!cnTitle) {
+            console.log("Chinese title is empty.");
+            return false;
+        }
 
         /** ===== 创建 DOM ===== */
         const container = document.createElement('span');
@@ -157,6 +185,7 @@
             info.append(container, br);
         }
 
+        console.log("Resource links inserted.");
         return true;
     }
 
@@ -165,12 +194,15 @@
      * ========================= */
 
     function waitForInfo() {
+        console.log("Waiting for DOM to load...");
         if (insertLinks()) return;
 
         const observer = new MutationObserver(() => {
+            console.log("Mutation detected.");
             if (insertLinks()) observer.disconnect();
         });
 
+        // Monitoring the body subtree for any changes
         observer.observe(document.body, {
             childList: true,
             subtree: true
@@ -179,8 +211,11 @@
         setTimeout(() => {
             insertLinks();
             observer.disconnect();
-        }, 3000);
+        }, 10000);
     }
 
     waitForInfo();
 })();
+
+
+
