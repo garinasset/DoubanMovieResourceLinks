@@ -2,7 +2,7 @@
 // @name         Douban Movie Resource Links
 // @name:zh-CN   豆瓣电影资源链接
 // @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
-// @version      2.0.1
+// @version      2.0.2
 // @description  在豆瓣电影页面中自动添加第三方资源搜索链接
 // @author       garinasset
 // @homepageURL  https://github.com/garinasset/DoubanMovieResourceLinks
@@ -211,7 +211,7 @@
         setTimeout(() => {
             insertLinks();
             observer.disconnect();
-        }, 10000);
+        }, 3000);
     }
 
     waitForInfo();
