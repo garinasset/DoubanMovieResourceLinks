@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name:        豆瓣电影 · 资源搜索
+// @name         豆瓣电影 · 资源搜索
 // @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
-// @version      2.0.3
+// @version      2.0.4
 //
 // @description  在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。
 //
