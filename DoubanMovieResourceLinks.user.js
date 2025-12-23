@@ -1,27 +1,27 @@
 // ==UserScript==
-// @name         豆瓣电影 · 资源搜索
-// @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
-// @version      2.1.0
+// @name           豆瓣电影 · 资源搜索
+// @namespace      https://github.com/garinasset/DoubanMovieResourceLinks
+// @version        2.1.1
 //
-// @description  在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。
+// @description    在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。
 //
-// @author       garinasset
-// @license      MIT
+// @author         garinasset
+// @license        MIT
 //
-// @homepageURL  https://github.com/garinasset/DoubanMovieResourceLinks
-// @supportURL   https://github.com/garinasset/DoubanMovieResourceLinks/issues
+// @homepageURL    https://github.com/garinasset/DoubanMovieResourceLinks
+// @supportURL     https://github.com/garinasset/DoubanMovieResourceLinks/issues
 //
-// @match        https://movie.douban.com/subject/*
-// @run-at       document-end
+// @match          https://movie.douban.com/subject/*
+// @run-at         document-end
 // @noframes
 //
-// @grant        none
+// @grant          none
 //
-// @connect      thepiratebay.org
-// @connect      dytt8899.com
+// @connect        thepiratebay.org
+// @connect        dytt8899.com
 //
-// @updateURL    https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js
-// @downloadURL  https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js
+// @updateURL      https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js
+// @downloadURL    https://raw.githubusercontent.com/garinasset/DoubanMovieResourceLinks/main/DoubanMovieResourceLinks.user.js
 // ==/UserScript==
 
 (function () {
