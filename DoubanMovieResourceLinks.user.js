@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         豆瓣电影 · 资源搜索
 // @namespace    https://github.com/garinasset/DoubanMovieResourceLinks
-// @version      2.0.4
+// @version      2.1.0
 //
 // @description  在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。
 //
@@ -13,6 +13,7 @@
 //
 // @match        https://movie.douban.com/subject/*
 // @run-at       document-end
+// @noframes
 //
 // @grant        none
 //
@@ -26,11 +27,27 @@
 (function () {
     'use strict';
 
+    // 防止在 iframe 中运行（许多页面和广告会在若干 iframe 中加载，导致脚本多次实例化）
+    if (window.top !== window.self) {
+        console.log('[DoubanResource] Running inside an iframe; aborting initialization.');
+        return;
+    }
+
+    // 唯一初始化标志：避免同一页面/窗口中重复执行初始化（比如 SPA 导航或 Tampermonkey 的重复注入）
+    const UNIQUE_KEY = '__doubanMovieResourceLinks_initialized_v3';
+    if (window[UNIQUE_KEY]) {
+        console.log('[DoubanResource] Already initialized; aborting duplicate run.');
+        return;
+    }
+    window[UNIQUE_KEY] = true;
+
     /** =========================
      * 样式：资源链接 icon（::before 方案）
+     * -------------------------
+     * 说明：新增注释以增强语义，便于他人维护
      * ========================= */
     (function addResourceIconStyle() {
-        console.log("Adding resource icon styles...");
+        console.log('[DoubanResource] Adding resource icon styles...');
         const style = document.createElement('style');
         style.textContent = `
             /* ===== 容器 ===== */
@@ -78,19 +95,21 @@
     })();
 
     /** =========================
-     * 工具函数
+     * 工具函数（增加注释说明每个函数的职责）
      * ========================= */
 
+    // 获取页面标题中的中文名（去掉尾部 "(豆瓣)"）
     function getCleanChineseTitle() {
-        console.log("Extracting Chinese title...");
+        console.log('[DoubanResource] Extracting Chinese title...');
         const title = document.title || '';
         const cleanedTitle = title.replace(/\s*\(豆瓣\)\s*$/, '').trim();
         console.log("Cleaned Chinese title:", cleanedTitle);
         return cleanedTitle;
     }
 
+    // 使用 POST 表单以 gb2312 编码提交搜索（电影天堂）
     function openDyttSearch(keyword) {
-        console.log("Opening search for:", keyword);
+        console.log('[DoubanResource] Opening Dytt search for:', keyword);
         const form = document.createElement('form');
         form.action = 'https://www.dytt8899.com/e/search/index.php';
         form.method = 'POST';
@@ -118,8 +137,9 @@
         console.log("Search form submitted for:", keyword);
     }
 
+    // 在信息栏插入资源链接（若未插入）
     function insertLinks() {
-        console.log("Checking for IMDb ID...");
+        console.log('[DoubanResource] Checking for IMDb ID and inserting links...');
         const info = document.querySelector('#info');
         if (!info) {
             console.log("Info element not found.");
@@ -192,29 +212,33 @@
             info.append(container, br);
         }
 
-        console.log("Resource links inserted.");
+        // 最后插入成功日志
+        console.log('[DoubanResource] Resource links inserted.');
         return true;
     }
 
     /** =========================
      * 等待 DOM（豆瓣 SPA）
+     * -------------------------
+     * 说明：用 MutationObserver 监听 DOM 变化以兼容 SPA；已保证 observer 只在单次初始化中创建
      * ========================= */
 
     function waitForInfo() {
-        console.log("Waiting for DOM to load...");
+        console.log('[DoubanResource] Waiting for DOM to load...');
         if (insertLinks()) return;
 
         const observer = new MutationObserver(() => {
-            console.log("Mutation detected.");
+            console.log('[DoubanResource] Mutation detected.');
             if (insertLinks()) observer.disconnect();
         });
 
-        // Monitoring the body subtree for any changes
+        // 监控 body 子树的变化
         observer.observe(document.body, {
             childList: true,
             subtree: true
         });
 
+        // 最终容错：若 observer 未捕获到，3s 后再尝试一次并断开 observer
         setTimeout(() => {
             insertLinks();
             observer.disconnect();
