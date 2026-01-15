@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           豆瓣电影 · 资源搜索
 // @namespace      https://github.com/garinasset/DoubanMovieResourceLinks
-// @version        3.0.0
+// @version        4.0.0
 //
 // @description    在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。
 //
@@ -42,19 +42,25 @@
             name: '海盗湾',
             favicon: 'https://thepiratebay.org/favicon.ico',
             href: (imdbId, cnTitle, year) => `https://thepiratebay.org/search.php?q=${imdbId}`,
-            className: 'hdw'
+            className: 'thepiratebay'
         },
         {
             name: '电影天堂',
             favicon: 'https://www.dytt8899.com/favicon.ico',
             onClick: (imdbId, cnTitle, year) => openDyttSearch(cnTitle),
-            className: 'dytt'
+            className: 'dytt8899'
+        },
+        {
+            name: 'SubHD',
+            favicon: 'https://subhd.tv/public/images/favicon-32x32.png',
+            href: (imdbId, cnTitle, year) => `https://subhd.tv/search/${encodeURIComponent(cnTitle)}${year ? '+' + year : ''}`,
+            className: 'subhd'
         },
         {
             name: '伪·射手网',
             favicon: 'https://assrt.net/favicon.ico',
             href: (imdbId, cnTitle, year) => `https://assrt.net/sub/?searchword=${encodeURIComponent(cnTitle)}${year ? '+' + year : ''}`,
-            className: 'shooter'
+            className: 'assrt'
         }
     ];
 
