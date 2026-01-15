@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           豆瓣电影 · 资源搜索
 // @namespace      https://github.com/garinasset/DoubanMovieResourceLinks
-// @version        4.0.1
+// @version        5.0.0
 //
 // @description    在"豆瓣电影"页面信息栏，添加相应"电影"的"第三方资源搜索"链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利"资源"搜索。
 //
@@ -49,6 +49,12 @@
             favicon: 'https://www.dytt8899.com/favicon.ico',
             onClick: (imdbId, cnTitle, year) => openDyttSearch(cnTitle),
             className: 'dytt8899'
+        },
+        {
+            name: 'YYeTs',
+            favicon: 'https://yyets.click/svg/logo.svg',
+            href: (imdbId, cnTitle, year) => `https://yyets.click/search?keyword=${encodeURIComponent(cnTitle)}&type=resource`,
+            className: 'yyets'
         },
         {
             name: 'SubHD',
@@ -144,8 +150,8 @@
 
         const container = document.createElement('span');
         container.className = 'pl';
-        container.textContent = '磁力资源:';
-        
+        container.textContent = '资源:';
+
         const linkContainer = document.createElement('span');
         let html = '';
 
@@ -179,7 +185,7 @@
         const wrapper = document.createElement('div');
         wrapper.appendChild(container);
         wrapper.appendChild(linkContainer);
-        
+
         const br = document.createElement('br');
         const imdbBr = imdbTextNode.nextSibling;
         if (imdbBr && imdbBr.tagName === 'BR') {
