@@ -58,8 +58,8 @@
         },
         {
             name: 'SubHD',
-            favicon: 'https://subhd.tv/public/images/favicon-32x32.png',
-            href: (imdbId, cnTitle, year) => `https://subhd.tv/search/${encodeURIComponent(cnTitle)}${year ? '+' + year : ''}`,
+            favicon: 'https://subhd.cc/public/images/favicon-32x32.png',
+            href: (imdbId, cnTitle, year) => `https://subhd.cc/search/${encodeURIComponent(cnTitle)}${year ? '+' + year : ''}`,
             className: 'subhd'
         },
         {
