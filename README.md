@@ -1,6 +1,6 @@
 # DoubanMovieResourceLinks
 
-**DoubanMovieResourceLinks**（豆瓣电影 · 资源搜索）是一个 Tampermonkey/Greasemonkey 用户脚本：实现在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。...当下正在扩展更多资源。
+**DoubanMovieResourceLinks**（豆瓣电影 · 资源搜索）是一个 Tampermonkey/Greasemonkey 用户脚本：实现在“豆瓣电影”页面信息栏，添加相应“电影”的“第三方资源搜索”链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利”资源“搜索。
 
 ![历史效果图](https://github.com/user-attachments/assets/99b48de3-6a50-4329-8269-2c27afd0992f)
 
@@ -8,11 +8,13 @@
 ## 功能特性
 
 - 自动解析电影“中文名”和“IMDb ID”
-- 支持
+- 资源支持
     - 海盗湾
-    - 等等等...使用有惊喜
-
-- 支持豆瓣 SPA 页面（无需刷新）
+    - 电影天堂
+    - 6V电影网
+    - YYeTs
+    - SubHD
+    - 伪·射手网
 - 无广告 / 无统计 / 无后台请求
 
 ## 安装
