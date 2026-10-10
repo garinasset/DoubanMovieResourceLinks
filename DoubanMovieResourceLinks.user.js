@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name           豆瓣电影 · 资源搜索
 // @namespace      https://github.com/garinasset/DoubanMovieResourceLinks
-// @version        5.0.1
+// @version        6.0.0
 //
 // @description    在"豆瓣电影"页面信息栏，添加相应"电影"的"第三方资源搜索"链接，例如海盗湾等，点击即可跳转到对应电影的第三方资源搜索结果页面，便利"资源"搜索。
 //
@@ -49,6 +49,12 @@
             favicon: 'https://www.dytt8899.com/favicon.ico',
             onClick: (imdbId, cnTitle, year) => openDyttSearch(cnTitle),
             className: 'dytt8899'
+        },
+        {
+            name: '6V电影网',
+            favicon: 'https://www.hao6v.cc/favicon.ico',
+            onClick: (imdbId, cnTitle, year) => open6vSearch(`${cnTitle} ${year}`),
+            className: '6v'
         },
         {
             name: 'YYeTs',
@@ -126,6 +132,35 @@
         });
         document.body.appendChild(form);
         form.submit(); form.remove();
+    }
+
+    function open6vSearch(keyword) {
+        const form = document.createElement('form');
+        form.action = 'https://www.hao6v.cc/e/search/index.php';
+        form.method = 'POST';
+        form.target = '_blank';
+        form.acceptCharset = 'gb2312';
+
+        const fields = {
+            show: 'title,smalltext',
+            tempid: '1',
+            keyboard: keyword,
+            tbname: 'article',
+            x: '0',
+            y: '0'
+        };
+
+        Object.entries(fields).forEach(([k, v]) => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = k;
+            input.value = v;
+            form.appendChild(input);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+        form.remove();
     }
 
     /** =========================
